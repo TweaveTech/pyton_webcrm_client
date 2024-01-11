@@ -15,7 +15,7 @@ import unittest
 from pathlib import Path
 import datetime
 
-from src.webcrm.api import WebCrmAPI
+from webcrm.api import WebCrmAPI
 
 API_TOKEN = os.environ['WebCrmApiKey']
 
