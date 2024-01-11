@@ -6,7 +6,7 @@ import os
 API_TOKEN = os.environ['WebCrmApiKey']
 
 api = WebCrmAPI(api_token=API_TOKEN)
-# next(api.organisations())
+next(api.organisations())
 api.organisation_by_id(2)
 
 """
@@ -30,6 +30,13 @@ class OrganisationsCase(WebCrmClientMixin, unittest.TestCase):
     def test_organisations(self):
         organisation = next(self.api.organisations())
         self.assertTrue(isinstance(organisation, tuple))
+
+    def test_all_organisations(self):
+        organisations = []
+        for o in self.api.organisations():
+            organisations.append(o)
+
+        self.assertTrue(isinstance(organisations[-1], tuple))
 
     def test_organisation_by_id(self):
         organisation_id = next(self.api.organisations()).organisation_id
