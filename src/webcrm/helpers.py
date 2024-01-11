@@ -15,7 +15,8 @@ def camelcase(s):
 
 
 def convert_dict_to_namedtuple(base_name, d):
-    nt = namedtuple(camelcase(base_name), list(d.keys()))
+    snake_name_keys = [snake_case(k) for k in d.keys()]
+    nt = namedtuple(camelcase(base_name), snake_name_keys)
     return_d = {}
 
     for k, v in deepcopy(d).items():

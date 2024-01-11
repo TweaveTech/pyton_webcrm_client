@@ -1,2 +1,0 @@
-class EmptyPage(Exception):
-    pass

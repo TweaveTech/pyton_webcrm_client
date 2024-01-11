@@ -1,8 +1,35 @@
-from functools import wraps
 from time import sleep
+from functools import wraps
+
+from .exceptions import EmptyPage, JSONDecodeError
 
 import logging
 logger = logging.getLogger(__name__)
+
+
+def raise_empty_page():
+    """
+    Check the response if the page is empty.
+    If so, raise an error.
+    """
+    def deco_f(f):
+
+        @wraps(f)
+        def wrap_f(self, *args, **kwargs):
+            resp = f(self, *args, **kwargs)
+
+            try:
+                json = resp.json()
+                if not json:
+                    raise EmptyPage()
+            except JSONDecodeError:
+                pass
+
+            return resp
+
+        return wrap_f
+
+    return deco_f
 
 
 def auto_token():

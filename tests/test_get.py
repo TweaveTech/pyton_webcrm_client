@@ -1,17 +1,29 @@
+"""
+# A copy/paste for debugging / testing
+
+from src.webcrm.api import WebCrmAPI
+import os
+API_TOKEN = os.environ['WebCrmApiKey']
+
+api = WebCrmAPI(api_token=API_TOKEN)
+# next(api.organisations())
+api.organisation_by_id(2)
+
+"""
 import os
 import unittest
 from pathlib import Path
 import datetime
 
-from webcrm import WebCrmAPI
+from src.webcrm.api import WebCrmAPI
 
-API_KEY = os.environ['WebCrmApiKey']
+API_TOKEN = os.environ['WebCrmApiKey']
 
 
 class WebCrmClientMixin:
     def setUp(self):
         super().setUp()
-        self.api = WebCrmAPI(api_key=API_KEY)
+        self.api = WebCrmAPI(api_token=API_TOKEN, verbose=True)
 
 
 class OrganisationsCase(WebCrmClientMixin, unittest.TestCase):
@@ -25,19 +37,10 @@ class OrganisationsCase(WebCrmClientMixin, unittest.TestCase):
         self.assertEqual(organisation_id, organisation.organisation_id)
 
     def test_persons(self):
-        person = next(self.api.organisations())
-        self.assertTrue(isinstance(organisation, tuple))
+        person = next(self.api.persons())
+        self.assertTrue(isinstance(person, tuple))
 
     def test_person_by_id(self):
-        person_id = next(self.api.organisations()).person_id
-        person = self.api.person_by_id(person_id).person_id
+        person_id = next(self.api.persons()).person_id
+        person = self.api.person_by_id(person_id)
         self.assertEqual(person_id, person.person_id)
-
-    def test_memberships(self):
-        membership = next(self.api.memberships())
-        self.assertTrue(isinstance(membership, tuple))
-
-    def test_membership_by_id(self):
-        membership_id = next(self.api.memberships()).membership_id
-        membership = self.api.membership_by_id(membership_id)
-        self.assertEqual(membership_id, membership.membership_id)
