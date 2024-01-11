@@ -11,6 +11,6 @@ from webcrm_client.api import WebCrmAPI
 my_token = 'your-token-from-webcrm'
 api = WebCrmAPI(my_token)
 
-for org in api.organisations:
-	print(org.organisation_address)
+for org in api.organisations():
+    print(org.organisation_address)
 ```

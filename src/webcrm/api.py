@@ -57,18 +57,19 @@ class WebCrmAPI:
 
     def _paged_get_json(self, endpoint, page=1, page_size=150):
         # We set the page to 0 in order to halt the loop
-        complete_resp = []
+        # complete_resp = []
 
         while page > 0:
             paged_endpoint = f"{endpoint}?Page={page}&Size={page_size}"
             try:
-                resp = self._get_json(paged_endpoint)
-                complete_resp.extend(resp)
+                json = self._get_json(paged_endpoint)
+                # complete_resp.extend(resp)
+                yield json
                 page += 1
             except EmptyPage:
                 page = 0
 
-        return complete_resp
+        # return complete_resp
 
     @auto_token()
     @retry_rate_limit()
@@ -79,8 +80,9 @@ class WebCrmAPI:
 
     def _generic_base_list(self, base_name):
         endpoint = f'/{base_name}'
-        for i in self._paged_get_json(endpoint):
-            yield convert_dict_to_namedtuple(base_name, i)
+        for page in self._paged_get_json(endpoint):
+            for json in page:
+                yield convert_dict_to_namedtuple(base_name, json)
 
     def _generic_base_by_id(self, base_name, base_id):
         endpoint = f'/{base_name}/{base_id}'
