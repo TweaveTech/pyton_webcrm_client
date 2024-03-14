@@ -6,7 +6,7 @@ from WebCRM.
 ## Quickstart
 
 ```python
-from webcrm_client.api import WebCrmAPI
+from webcrm.api import WebCrmAPI
 
 my_token = 'your-token-from-webcrm'
 api = WebCrmAPI(my_token)
@@ -14,3 +14,10 @@ api = WebCrmAPI(my_token)
 for org in api.organisations():
     print(org.organisation_address)
 ```
+
+
+## Source information
+
+https://api.webcrm.com/documentation/index.html
+and
+https://webcrm.com/uk/support/api/rest-api/

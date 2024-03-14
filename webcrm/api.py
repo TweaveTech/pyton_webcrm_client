@@ -103,5 +103,6 @@ class WebCrmAPI:
     def person_by_organisation(self, organisations_id):
         base_name = self.base_names.persons
         endpoint = f"/{base_name}/ByOrganisation/{organisations_id}"
-        for i in self._paged_get_json(endpoint):
-            yield convert_dict_to_namedtuple(base_name, i)
+        for page in self._paged_get_json(endpoint):
+            for person in page:
+                yield convert_dict_to_namedtuple(base_name, person)
